@@ -7,7 +7,6 @@ pub use switchboard_v2::{
 declare_id!("68V9BQJNemtzge1seCtrKWFHi4zc3NRyQv75MWTADvm4");
 
 #[derive(Accounts)]
-#[instruction(params: ReadHistoryParams)]
 pub struct ReadHistory<'info> {
     #[account(
         has_one = history_buffer @ ErrorCode::InvalidHistoryBuffer
@@ -17,20 +16,12 @@ pub struct ReadHistory<'info> {
     pub history_buffer: AccountInfo<'info>,
 }
 
-#[derive(Clone, AnchorSerialize, AnchorDeserialize)]
-pub struct ReadHistoryParams {
-    pub timestamp: Option<i64>,
-}
-
 #[program]
 pub mod volatility {
 
     use super::*;
 
-    pub fn read_history(
-        ctx: Context<ReadHistory>,
-        _params: ReadHistoryParams,
-    ) -> anchor_lang::Result<()> {
+    pub fn read_history(ctx: Context<ReadHistory>) -> anchor_lang::Result<()> {
         let history_buffer = AggregatorHistoryBuffer::new(&ctx.accounts.history_buffer)?;
 
         #[derive(Debug)]

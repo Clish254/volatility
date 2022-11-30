@@ -51,7 +51,7 @@ describe('volatility', () => {
         const history = await aggregatorAccount.loadHistory();
 
         const tx = await program.methods
-            .readHistory({ timestamp: new anchor.BN(1669794921) })
+            .readHistory()
             .accounts({
                 aggregator: AGGREGATOR_PUBKEY,
                 historyBuffer: aggregator.historyBuffer,
