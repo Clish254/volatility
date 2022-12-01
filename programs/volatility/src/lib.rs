@@ -54,6 +54,14 @@ pub mod volatility {
             next_timestamp -= seconds_per_day;
         }
 
+        /* this function sorts the closing prices array by timestamp from lowest to largest.
+        The closing prices above are from most recent to oldest but it makes more sence
+        to calculate daily returns later with prices ordered from oldest to latest */
+        fn sort_by_timestamp(data: &mut [ClosingPrice]) {
+            data.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));
+        }
+        sort_by_timestamp(&mut closing_prices);
+
         // then we calculate the daily returns
         let mut daily_returns: Vec<f64> = Vec::new();
         for (i, closing_price) in closing_prices.iter().enumerate() {

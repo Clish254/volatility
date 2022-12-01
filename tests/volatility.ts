@@ -2,7 +2,10 @@ import * as anchor from '@project-serum/anchor';
 import { Program } from '@project-serum/anchor';
 import { Volatility } from '../target/types/volatility';
 import { SwitchboardTestContext } from '@switchboard-xyz/sbv2-utils';
-import { AggregatorAccount,AggregatorHistoryRow } from '@switchboard-xyz/switchboard-v2';
+import {
+    AggregatorAccount,
+    AggregatorHistoryRow,
+} from '@switchboard-xyz/switchboard-v2';
 
 export const AGGREGATOR_PUBKEY: anchor.web3.PublicKey =
     new anchor.web3.PublicKey('GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR');
@@ -49,6 +52,10 @@ describe('volatility', () => {
 
         // TODO: Verify the correctness of values in the logs
         const history = await aggregatorAccount.loadHistory();
+        console.log({ firstTimestamp: history[0].timestamp.toNumber() });
+        console.log({
+            lastTimestamp: history[history.length - 1].timestamp.toNumber(),
+        });
 
         const tx = await program.methods
             .readHistory()
